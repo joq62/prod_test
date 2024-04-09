@@ -29,8 +29,20 @@
 %% @end
 %%--------------------------------------------------------------------
 all_nodes()->
-    lists:usort(lists:append([rpc:call(N,erlang,nodes,[],5000)||N<-?MainNodes,
-						    {badrpc,nodedown}=/=rpc:call(N,erlang,nodes,[],5000)])).
+    all_nodes(?MainNodes,[]).
+
+all_nodes([],Acc)->
+    lists:usort(Acc);
+all_nodes([Node|T],Acc)->
+    NewAcc=case rpc:call(Node,erlang,nodes,[],5000) of
+	       {badrpc,timeout}->
+		   Acc;
+	       {badrpc,nodedown}->
+		   Acc;
+	       Nodes ->
+		   lists:append(Nodes,Acc)
+	   end,
+    all_nodes(T,NewAcc).
 
 %%%===================================================================
 %%% Internal functions

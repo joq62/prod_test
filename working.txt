@@ -1,0 +1,84 @@
+(prod_test_a@c50)1> *****************  {2024,4,9}{23,6,28} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200,main_a@c202]
+RunningApplicationNodes  [adder_GV3LYN288S_a@c200,adder_GV3M0LHBSU_a@c202,
+                          divi_GV3LYLLW20_a@c200,divi_GV3M0JXMAZ_a@c202]
+
+(prod_test_a@c50)1> rpc:cast(system_boot_a@c200,os,cmd,["sudo reboot"]).
+true
+(prod_test_a@c50)2> rpc:cast(system_boot_a@c202,os,cmd,["sudo reboot"]).
+true
+(prod_test_a@c50)3> *****************  {2024,4,9}{23,8,0} ********************
+
+Running system_boot Nodes  []
+Running main Nodes  []
+RunningApplicationNodes  []
+
+*****************  {2024,4,9}{23,8,41} ********************
+
+Running system_boot Nodes  [system_boot_a@c200]
+Running main Nodes  []
+RunningApplicationNodes  []
+
+*****************  {2024,4,9}{23,10,26} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200]
+RunningApplicationNodes  []
+
+*****************  {2024,4,9}{23,11,24} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200]
+RunningApplicationNodes  [adder_GV3M63N37W_a@c200,divi_GV3M626NI3_a@c200]
+
+*****************  {2024,4,9}{23,12,22} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200,main_a@c202]
+RunningApplicationNodes  [adder_GV3M63N37W_a@c200,divi_GV3M626NI3_a@c200]
+
+*****************  {2024,4,9}{23,13,20} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200,main_a@c202]
+RunningApplicationNodes  [adder_GV3M63N37W_a@c200,adder_GV3M82LTRG_a@c202,
+                          divi_GV3M626NI3_a@c200,divi_GV3M81180N_a@c202]
+
+
+(prod_test_a@c50)3> rpc:cast(adder_GV3M63N37W_a@c200,init,stop,[]).
+true
+(prod_test_a@c50)4> *****************  {2024,4,9}{23,14,18} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200,main_a@c202]
+RunningApplicationNodes  [adder_GV3M82LTRG_a@c202,adder_GV3M95232E_a@c200,
+                          divi_GV3M626NI3_a@c200,divi_GV3M81180N_a@c202]
+
+(prod_test_a@c50)4> rpc:cast(system_boot_a@c202,os,cmd,["sudo reboot"]).
+true
+(prod_test_a@c50)5> *****************  {2024,4,9}{23,15,26} ********************
+
+Running system_boot Nodes  [system_boot_a@c200]
+Running main Nodes  [main_a@c200]
+RunningApplicationNodes  [adder_GV3M95232E_a@c200,divi_GV3M626NI3_a@c200]
+
+*****************  {2024,4,9}{23,17,49} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200]
+RunningApplicationNodes  [adder_GV3M95232E_a@c200,divi_GV3M626NI3_a@c200]
+
+*****************  {2024,4,9}{23,19,45} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200,main_a@c202]
+RunningApplicationNodes  [adder_GV3M95232E_a@c200,divi_GV3M626NI3_a@c200]
+
+*****************  {2024,4,9}{23,21,12} ********************
+
+Running system_boot Nodes  [system_boot_a@c200,system_boot_a@c202]
+Running main Nodes  [main_a@c200,main_a@c202]
+RunningApplicationNodes  [adder_GV3M95232E_a@c200,adder_GV3MFSAKTD_a@c202,
+                          divi_GV3M626NI3_a@c200,divi_GV3MFQGO0F_a@c202]

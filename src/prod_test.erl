@@ -178,10 +178,19 @@ handle_cast(UnMatchedSignal, State) ->
 
 handle_info(timeout, State) ->
 
-   
-    PongR=[{net_adm:ping(N),N}||N<-?MainNodes],
-
-    io:format("PongR  ~p~n",[{PongR,?MODULE,?LINE}]),  
+    RunningSystemBootNodes=lists:sort([N||N<-?SystemBootNodes,
+					  pong==net_adm:ping(N)]),
+    RunningMainNodes=lists:sort([N||N<-?MainNodes,
+				    pong==net_adm:ping(N)]),
+    RunningApplicationNodes=lists:sort([N||N<-lib_prod_test:all_nodes(),
+					   false==lists:member(N,?MainNodes),
+					   pong==net_adm:ping(N)]),
+    io:format("*****************  ~w~w ********************~n~n",[date(),time()]),
+    
+    io:format("Running system_boot Nodes  ~p~n",[RunningSystemBootNodes]),  
+    io:format("Running main Nodes  ~p~n",[RunningMainNodes]),  
+    io:format("RunningApplicationNodes  ~p~n",[RunningApplicationNodes]),
+    spawn(fun()->loop_system_main(RunningSystemBootNodes,RunningMainNodes,RunningApplicationNodes) end),
        
     {noreply, State};
 
@@ -233,3 +242,29 @@ format_status(_Opt, Status) ->
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
+loop_system_main(StateSystemBoot,StateMain,StateApplications)->
+    
+    RunningSystemBootNodes=lists:sort([N||N<-?SystemBootNodes,
+					  pong==net_adm:ping(N)]),
+    RunningMainNodes=lists:sort([N||N<-?MainNodes,
+				    pong==net_adm:ping(N)]),
+  
+    RunningApplicationNodes=lists:sort([N||N<-lib_prod_test:all_nodes(),
+					   false==lists:member(N,?MainNodes),
+					   pong==net_adm:ping(N)]),
+    {NewStateSystem,NewStateMain,NewStateApplications}=case {RunningSystemBootNodes==StateSystemBoot,
+							     RunningMainNodes==StateMain,
+							     RunningApplicationNodes==StateApplications} of
+							   {true,true,true}->
+							       {StateSystemBoot,StateMain,StateApplications};
+							   {_,_,_}->
+							       io:format("*****************  ~w~w ********************~n~n",[date(),time()]),
+							       io:format("Running system_boot Nodes  ~p~n",[RunningSystemBootNodes]),  
+							       io:format("Running main Nodes  ~p~n",[RunningMainNodes]),  
+							       io:format("RunningApplicationNodes  ~p~n",[RunningApplicationNodes]),
+							       io:format("~n"),
+							       {RunningSystemBootNodes,RunningMainNodes,RunningApplicationNodes}
+						       end,
+    
+    timer:sleep(20*1000),
+    loop_system_main(NewStateSystem,NewStateMain,NewStateApplications).
