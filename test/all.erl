@@ -16,7 +16,7 @@
 %% --------------------------------------------------------------------
 %% Include files
 %% --------------------------------------------------------------------
-
+-include("prod_test.hrl").
 
 %% --------------------------------------------------------------------
 %% Function: available_hosts()
@@ -40,8 +40,20 @@ start()->
 %% --------------------------------------------------------------------
 setup()->
     io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME}]),
+ 
+    file:del_dir_r(?MainLogDir),
+    {ok,_}=log:start_link(),
+    file:make_dir(?MainLogDir),
+    [NodeName,_HostName]=string:tokens(atom_to_list(node()),"@"),
+    NodeNodeLogDir=filename:join(?MainLogDir,NodeName),
+    ok=log:create_logger(NodeNodeLogDir,?LocalLogDir,?LogFile,?MaxNumFiles,?MaxNumBytes),
+    
+    {ok,_}=rd:start_link(),
     
     ok=application:start(prod_test),
-       
     pong=prod_test:ping(),
+     [rd:add_local_resource(ResourceType,Resource)||{ResourceType,Resource}<-[]],
+    [rd:add_target_resource_type(TargetType)||TargetType<-[controller,catalog,deployment,adder,host,divi,phoscon,zigbee]],
+    rd:trade_resources(),
+    timer:sleep(3000),
     ok.

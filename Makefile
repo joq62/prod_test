@@ -117,6 +117,14 @@ eunit:
 	#rm test/dependent_apps.erl;
 	#cp /home/joq62/erlang/dev_support/dependent_apps.erl test;
 	erlc -I include -I /home/joq62/erlang/include -o test_ebin test/*.erl;
+	erlc -I include\
+	 -I /home/joq62/erlang/include\
+	 -I ../../services/log_service/include\
+	 -o test_ebin ../../services/log_service/src/*.erl;
+	erlc -I include\
+	 -I /home/joq62/erlang/include\
+	 -I ../../services/rd_service/include\
+	 -o test_ebin ../../services/rd_service/src/*.erl;
 	#INFO: Creating Common applications needed for testing
 	#INFO: Compile application
 	mkdir ebin;		
@@ -127,4 +135,4 @@ eunit:
 	erl -pa ebin -pa priv -pa test_ebin\
 	 -sname prod_test_a\
 	 -run $(m) start\
-	 -setcookie a -hidden
+	 -setcookie a
